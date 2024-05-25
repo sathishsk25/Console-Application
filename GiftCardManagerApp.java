@@ -1,3 +1,14 @@
+/*
+Create a Gift Card Management System with functionalities including 
+    1. Creating a gift card with a unique number and user-defined PIN
+    2. Topping up the card
+    3. Making purchases
+    4. Viewing transaction history
+    5. Blocking the Card
+    6. Exiting the program
+*/
+
+
 import java.util.*;
 
 class GiftCard {
@@ -39,6 +50,9 @@ class GiftCard {
         if (!blocked) {
             balance += amount;
             transactionHistory.add("Top up: +" + amount);
+            System.out.println("Top-up successful.");
+        } else {
+            System.out.println("Gift card is blocked. Cannot top up.");
         }
     }
 
@@ -46,6 +60,9 @@ class GiftCard {
         if (!blocked && balance >= amount) {
             balance -= amount;
             transactionHistory.add("Purchase: -" + amount);
+            System.out.println("Purchase successful.");
+        } else {
+            System.out.println("Gift card is blocked or insufficient balance.");
         }
     }
 
@@ -75,14 +92,14 @@ class GiftCardManager {
 
         giftCards.put(cardNumber, new GiftCard(cardNumber, pin));
         usedCardNumbers.add(cardNumber);
-        System.out.println("***** Gift card created successfully with card number: " + cardNumber + " *****" );
+        System.out.println("Gift card created successfully with card number: " + cardNumber  );
     }
 
     public void topUpGiftCard(int cardNumber, int pin, double amount) {
         GiftCard card = giftCards.get(cardNumber);
         if (card != null && card.verifyPIN(pin)) {
             card.topUp(amount);
-            System.out.println("****** Top-up successful. Current balance: " + card.getBalance() + " ******");
+            System.out.print("Current balance: " + card.getBalance());
         } else {
             System.out.println("Invalid card number or PIN.");
         }
@@ -93,7 +110,7 @@ class GiftCardManager {
         if (card != null && card.verifyPIN(pin)) {
             if (card.getBalance() >= amount) {
                 card.purchase(amount);
-                System.out.println("***** Purchase successful. Remaining balance: " + card.getBalance() + " *****");
+                System.out.println("Remaining balance: " + card.getBalance());
             } else {
                 System.out.println("Insufficient balance.");
             }
@@ -114,7 +131,7 @@ class GiftCardManager {
         GiftCard card = giftCards.get(cardNumber);
         if (card != null && card.verifyPIN(pin)) {
             card.blockCard();
-            System.out.println("***** Gift card blocked successfully *****");
+            System.out.println("Gift card blocked successfully.");
         } else {
             System.out.println("Invalid card number or PIN.");
         }
